@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.sql.Timestamp;
 import javax.swing.JOptionPane;
 import java.io.*;
+import javax.swing.JDialog;
 
 /**
  *
@@ -35,19 +36,19 @@ public class PAMHome extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        buttonLogEvent = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Activity", "Duration", "Date"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -55,10 +56,10 @@ public class PAMHome extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel1.setText("PAM");
 
-        jButton1.setText("Log Event");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonLogEvent.setText("Log Event");
+        buttonLogEvent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                buttonLogEventActionPerformed(evt);
             }
         });
 
@@ -71,7 +72,7 @@ public class PAMHome extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1))
+                    .addComponent(buttonLogEvent))
                 .addGap(0, 170, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -82,35 +83,38 @@ public class PAMHome extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)))
+                        .addComponent(buttonLogEvent)))
                 .addGap(0, 128, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void buttonLogEventActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLogEventActionPerformed
         // TODO add your handling code here:
         
-        Date date = new Date();
-        Timestamp ts = new Timestamp(date.getTime());
-
-        
-        try{
-            String filename= "src/PAMDB.txt";
-            FileWriter fw = new java.io.FileWriter(filename,true); //the true will append the new data
-            fw.write(ts + "\n");//appends the string to the file
-            fw.close();
-            System.out.println("added line");
-        } catch(IOException ioe) {
-            System.err.println("IOException: " + ioe.getMessage());
-        } 
+        LogEventView logEvent = new LogEventView(this, true);
+        logEvent.setVisible(true);
         
         
+//                Date date = new Date();
+//        Timestamp ts = new Timestamp(date.getTime());
+//        
+//        //String activity = new String(listActivity.getText());
+//        //String duration = new String(textFieldDuration.getText());
+//        
+//        try {
+//            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("PAMDB.txt", true)));
+//            out.println(ts);
+//            System.out.println(ts);
+//        } catch (IOException e) {
+//            //exception handling left as an exercise for the reader
+//        }
+//        
+//        
+//        System.out.println(ts);
         
-        System.out.println(ts);
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_buttonLogEventActionPerformed
 
     
     /**
@@ -149,7 +153,7 @@ public class PAMHome extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton buttonLogEvent;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
