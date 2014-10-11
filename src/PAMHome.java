@@ -96,6 +96,41 @@ public class PAMHome extends javax.swing.JFrame {
         LogEventView logEvent = new LogEventView(this, true);
         logEvent.setVisible(true);
         
+        BufferedReader br = new BufferedReader(new FileReader("src/PAMDB.txt"));
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = br.readLine();
+            }
+            String everything = sb.toString();
+        } finally {
+            br.close();
+        }
+        
+        
+        
+        table.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+            {"Running", "09/05/14", "3", "0:45"},
+            {"Climbing", "09/07/14", "2", "0:22"},
+            {"Swimming", "09/11/14", "4", "1:15"},
+            {"Running", "09/05/14", "3", "0:45"},
+            {"Climbing", "09/07/14", "2", "0:22"},
+            {"Swimming", "09/11/14", "4", "1:15"},
+            {"Running", "09/05/14", "3", "0:45"},
+            {"Climbing", "09/07/14", "2", "0:22"},
+            {"Swimming", "09/11/14", "4", "1:15"},
+            {null, null, null, null}
+        },
+        new String [] {
+            "Activity", "Date", "Week", "Duration"
+        }));
+
+     jScrollPane1.setViewportView(table);
         
 //                Date date = new Date();
 //        Timestamp ts = new Timestamp(date.getTime());
