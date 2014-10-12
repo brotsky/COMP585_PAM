@@ -16,6 +16,9 @@ import javax.swing.JDialog;
  * @author brotsky
  */
 public class PAMHome extends javax.swing.JFrame {
+    Vector data;
+    Vector dataLine;
+    Vector columns;
 
     /**
      * Creates new form PAMHome
@@ -97,69 +100,169 @@ public class PAMHome extends javax.swing.JFrame {
         logEvent.setVisible(true);
         
         
+        String line;
+        data = new Vector();
+        dataLine = new Vector();
+        columns = new Vector();
+        
+        columns.addElement("Activity");
+        columns.addElement("Duration");
+        columns.addElement("Date");
+        
         try {
-            java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader("src/PAMDB.txt"));
-            StringBuilder sb = new StringBuilder();
-            String line = new String();
-            String lineTime = new String();
-            String lineActivity = new String();
-            String lineDuration = new String();
-            String[] lineParts = new String[4];
-            while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = (String)br.readLine();
-                if(line != null) {
-                    System.out.println("from doc:" + line);
-                    lineParts = line.split("|",4);
-                    lineTime = lineParts[0];
-                    System.out.println("Time: " + lineTime);
-                }
-            }
-            br.close();
-            String everything = sb.toString();
-        } catch(IOException ioe) {
             
-        } 
+            BufferedReader br = new BufferedReader(new FileReader("src/PAMDB.txt"));            
+            StringBuilder sb = new StringBuilder();
+            //String st1 = br.readLine();
+       //         StringTokenizer st1 = new StringTokenizer(br.readLine(), ",");
+                while ((line = br.readLine()) != null) {
+                        StringTokenizer st2 = new StringTokenizer(line, ",");
+                        
+                        String time = new String(st2.nextToken());
+                        String activity = new String(st2.nextToken());
+                        
+                        //the second .nextToken() is causing issues
+                        
+                       // String duration = new String(st2.nextToken());
+                        
+                        dataLine.addElement(activity);
+                        dataLine.addElement("duration");
+                        dataLine.addElement(time);
+                        
+                        data.addElement(dataLine);
+                }
+                System.out.println(data);
+                br.close();
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
         
-        
-        
-        table.setModel(new javax.swing.table.DefaultTableModel(
-        new Object [][] {
-            {"Running", "09/05/14", "3", "0:45"},
-            {"Climbing", "09/07/14", "2", "0:22"},
-            {"Swimming", "09/11/14", "4", "1:15"},
-            {"Running", "09/05/14", "3", "0:45"},
-            {"Climbing", "09/07/14", "2", "0:22"},
-            {"Swimming", "09/11/14", "4", "1:15"},
-            {"Running", "09/05/14", "3", "0:45"},
-            {"Climbing", "09/07/14", "2", "0:22"},
-            {"Swimming", "09/11/14", "4", "1:15"},
-            {null, null, null, null}
-        },
-        new String [] {
-            "Activity", "Date", "Week", "Duration"
-        }));
+table.setModel(new javax.swing.table.DefaultTableModel(
+        data,
+        columns));
 
      jScrollPane1.setViewportView(table);
         
-//                Date date = new Date();
-//        Timestamp ts = new Timestamp(date.getTime());
-//        
-//        //String activity = new String(listActivity.getText());
-//        //String duration = new String(textFieldDuration.getText());
-//        
-//        try {
-//            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("PAMDB.txt", true)));
-//            out.println(ts);
-//            System.out.println(ts);
-//        } catch (IOException e) {
-//            //exception handling left as an exercise for the reader
-//        }
-//        
-//        
-//        System.out.println(ts);
         
+        
+        
+        
+        
+        
+//        try {
+//            BufferedReader br = new BufferedReader(new FileReader("src/PAMDB.txt"));
+//            
+//            StringBuilder sb = new StringBuilder();
+//            String line = br.readLine();
+//
+//            while (line != null) {
+//                sb.append(line);
+//                sb.append(System.lineSeparator());
+//                line = br.readLine();
+//                System.out.println(line);
+//                
+//            }
+//            String everything = sb.toString();
+//            br.close();
+//        } catch(IOException ioe) {
+//            
+//        }
+       
+        
+//        try {
+//            FileReader fReader = new FileReader("src/PAMDB.txt");
+//            BufferedReader inFile = new BufferedReader(fReader);
+//            String input = inFile.readLine();
+//            String[] valuesForLine;
+//            Object[] dataSource = null;
+//
+//            
+//            
+//            while(input!=null) {
+//                valuesForLine = input.split(",");
+//                int x=0;
+//                String[] row = null;
+//                for(int i=0; i<valuesForLine.length;i++) {
+//                    System.out.println(valuesForLine);
+//                    dataSource[x]= valuesForLine[i]; 
+//                    
+//                }
+////                dataSource[x] = row;
+////                        x++;
+//            }
+//            table.setModel(new javax.swing.table.DefaultTableModel(
+//            new Object [][] {
+//            
+//            dataSource,
+//            
+//        },
+//        new String [] {
+//            "Activity", "Date", "Duration"
+//        }));
+//            
+//        }
+//        catch(IOException ioe){            
+//        }
+            
+//            while(input!=null) {
+//                int x=0;		
+//                temp = input.split(",",2);
+//                for(int i=0;i<temp.length;i++){		
+//                    System.out.println(temp[i]);	
+//                }		
+//                System.out.println("---------End of Line");		
+//                input = inFile.readLine();
+//            }
+//        }catch(IOException ioe){
+//            System.out.println("ERROR");
+//        }
+//	//endOfStringSplit
+//	
+//        Object rowData[][] = {
+//    	/*
+//		{ "1-1", "1-2", "1-3","1-4","1-5" },
+//        { "2-1", "2-2", "2-3","2-4","2-5" } 
+//    	*/
+//        };
+//        Object columnNames[] = { "Student Number", "Name", "Sex","College","Username","Password" };
+        
+        
+        
+//        try {
+//            FileReader fReader = new FileReader("src/PAMDB.txt");
+//            BufferedReader inFile = new BufferedReader(fReader);
+//            String input = inFile.readLine();
+//            Object test = input;
+//            table.setModel(new javax.swing.table.DefaultTableModel(
+//            test[][];
+//            );
+//        }catch(IOException ioe){            
+//            }
+            
+//        table.setModel(new javax.swing.table.DefaultTableModel(
+//        new Object [][] {
+//            
+//            
+//            
+//            {"Running", "09/05/14", "3", "0:45"},
+//            {"Climbing", "09/07/14", "2", "0:22"},
+//            {"Swimming", "09/11/14", "4", "1:15"},
+//            {"Running", "09/05/14", "3", "0:45"},
+//            {"Climbing", "09/07/14", "2", "0:22"},
+//            {"Swimming", "09/11/14", "4", "1:15"},
+//            {"Running", "09/05/14", "3", "0:45"},
+//            {"Climbing", "09/07/14", "2", "0:22"},
+//            {"Swimming", "09/11/14", "4", "1:15"},
+//            {null, null, null, null}
+//        },
+//        new String [] {
+//            "Activity", "Date", "Week", "Duration"
+//        }));
+//
+//     jScrollPane1.setViewportView(table);
+        
+
+
     }//GEN-LAST:event_buttonLogEventActionPerformed
 
     
