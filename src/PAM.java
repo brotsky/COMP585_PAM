@@ -18,6 +18,7 @@ public class PAM extends javax.swing.JFrame {
      */
     public PAM() {
         initComponents();
+        this.setLocationRelativeTo( null ); //opens the frame in the middle of the screen
     }
 
     /**

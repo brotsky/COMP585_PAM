@@ -25,6 +25,8 @@ public class PAMHome extends javax.swing.JFrame {
      */
     public PAMHome() {
         initComponents();
+        this.setLocationRelativeTo( null ); //opens the frame in the middle of the screen
+        getPAMData(); //populate the table with the existing information
     }
 
     /**
@@ -36,12 +38,31 @@ public class PAMHome extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         buttonLogEvent = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
+        jLabel1.setText("PAM");
+
+        buttonLogEvent.setText("Log Event");
+        buttonLogEvent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLogEventActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All", "Daily", "Weekly" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -56,38 +77,33 @@ public class PAMHome extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table);
 
-        jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
-        jLabel1.setText("PAM");
-
-        buttonLogEvent.setText("Log Event");
-        buttonLogEvent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonLogEventActionPerformed(evt);
-            }
-        });
+        jScrollPane2.setViewportView(jScrollPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 773, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
-                    .addComponent(buttonLogEvent))
-                .addGap(0, 170, Short.MAX_VALUE))
+                    .addComponent(buttonLogEvent)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 140, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(buttonLogEvent)))
-                .addGap(0, 128, Short.MAX_VALUE))
+                        .addComponent(buttonLogEvent)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 173, Short.MAX_VALUE))
         );
 
         pack();
@@ -99,171 +115,14 @@ public class PAMHome extends javax.swing.JFrame {
         LogEventView logEvent = new LogEventView(this, true);
         logEvent.setVisible(true);
         
-        
-        String line;
-        data = new Vector();
-        dataLine = new Vector();
-        columns = new Vector();
-        
-        columns.addElement("Activity");
-        columns.addElement("Duration");
-        columns.addElement("Date");
-        
-        try {
-            
-            BufferedReader br = new BufferedReader(new FileReader("src/PAMDB.txt"));            
-            StringBuilder sb = new StringBuilder();
-            //String st1 = br.readLine();
-       //         StringTokenizer st1 = new StringTokenizer(br.readLine(), ",");
-                while ((line = br.readLine()) != null) {
-                        StringTokenizer st2 = new StringTokenizer(line, ",");
-                        
-                        String time = new String(st2.nextToken());
-                        String activity = new String(st2.nextToken());
-                        
-                        //the second .nextToken() is causing issues
-                        
-                       // String duration = new String(st2.nextToken());
-                        
-                        dataLine.addElement(activity);
-                        dataLine.addElement("duration");
-                        dataLine.addElement(time);
-                        
-                        data.addElement(dataLine);
-                }
-                System.out.println(data);
-                br.close();
-        } catch (Exception e) {
-                e.printStackTrace();
-        }
-        
-table.setModel(new javax.swing.table.DefaultTableModel(
-        data,
-        columns));
-
-     jScrollPane1.setViewportView(table);
-        
-        
-        
-        
-        
-        
-        
-//        try {
-//            BufferedReader br = new BufferedReader(new FileReader("src/PAMDB.txt"));
-//            
-//            StringBuilder sb = new StringBuilder();
-//            String line = br.readLine();
-//
-//            while (line != null) {
-//                sb.append(line);
-//                sb.append(System.lineSeparator());
-//                line = br.readLine();
-//                System.out.println(line);
-//                
-//            }
-//            String everything = sb.toString();
-//            br.close();
-//        } catch(IOException ioe) {
-//            
-//        }
-       
-        
-//        try {
-//            FileReader fReader = new FileReader("src/PAMDB.txt");
-//            BufferedReader inFile = new BufferedReader(fReader);
-//            String input = inFile.readLine();
-//            String[] valuesForLine;
-//            Object[] dataSource = null;
-//
-//            
-//            
-//            while(input!=null) {
-//                valuesForLine = input.split(",");
-//                int x=0;
-//                String[] row = null;
-//                for(int i=0; i<valuesForLine.length;i++) {
-//                    System.out.println(valuesForLine);
-//                    dataSource[x]= valuesForLine[i]; 
-//                    
-//                }
-////                dataSource[x] = row;
-////                        x++;
-//            }
-//            table.setModel(new javax.swing.table.DefaultTableModel(
-//            new Object [][] {
-//            
-//            dataSource,
-//            
-//        },
-//        new String [] {
-//            "Activity", "Date", "Duration"
-//        }));
-//            
-//        }
-//        catch(IOException ioe){            
-//        }
-            
-//            while(input!=null) {
-//                int x=0;		
-//                temp = input.split(",",2);
-//                for(int i=0;i<temp.length;i++){		
-//                    System.out.println(temp[i]);	
-//                }		
-//                System.out.println("---------End of Line");		
-//                input = inFile.readLine();
-//            }
-//        }catch(IOException ioe){
-//            System.out.println("ERROR");
-//        }
-//	//endOfStringSplit
-//	
-//        Object rowData[][] = {
-//    	/*
-//		{ "1-1", "1-2", "1-3","1-4","1-5" },
-//        { "2-1", "2-2", "2-3","2-4","2-5" } 
-//    	*/
-//        };
-//        Object columnNames[] = { "Student Number", "Name", "Sex","College","Username","Password" };
-        
-        
-        
-//        try {
-//            FileReader fReader = new FileReader("src/PAMDB.txt");
-//            BufferedReader inFile = new BufferedReader(fReader);
-//            String input = inFile.readLine();
-//            Object test = input;
-//            table.setModel(new javax.swing.table.DefaultTableModel(
-//            test[][];
-//            );
-//        }catch(IOException ioe){            
-//            }
-            
-//        table.setModel(new javax.swing.table.DefaultTableModel(
-//        new Object [][] {
-//            
-//            
-//            
-//            {"Running", "09/05/14", "3", "0:45"},
-//            {"Climbing", "09/07/14", "2", "0:22"},
-//            {"Swimming", "09/11/14", "4", "1:15"},
-//            {"Running", "09/05/14", "3", "0:45"},
-//            {"Climbing", "09/07/14", "2", "0:22"},
-//            {"Swimming", "09/11/14", "4", "1:15"},
-//            {"Running", "09/05/14", "3", "0:45"},
-//            {"Climbing", "09/07/14", "2", "0:22"},
-//            {"Swimming", "09/11/14", "4", "1:15"},
-//            {null, null, null, null}
-//        },
-//        new String [] {
-//            "Activity", "Date", "Week", "Duration"
-//        }));
-//
-//     jScrollPane1.setViewportView(table);
-        
-
+        getPAMData();
 
     }//GEN-LAST:event_buttonLogEventActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        System.out.println("changed");
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     
     /**
@@ -300,11 +159,58 @@ table.setModel(new javax.swing.table.DefaultTableModel(
             }
         });
     }
+    
+    public void getPAMData() {
+        String line;
+        data = new Vector();
+        dataLine = new Vector();
+        columns = new Vector();
+        
+        columns.addElement("Activity");
+        columns.addElement("Duration");
+        columns.addElement("Date");
+        
+        try {
+            
+            BufferedReader br = new BufferedReader(new FileReader("src/PAMDB.txt"));            
+            StringBuilder sb = new StringBuilder();
+            //String st1 = br.readLine();
+       //         StringTokenizer st1 = new StringTokenizer(br.readLine(), ",");
+                while ((line = br.readLine()) != null) {
+                    System.out.println(line);
+                    StringTokenizer st2 = new StringTokenizer(line, ",");
+
+                    if(st2.countTokens() == 3) {
+                        String time = new String(st2.nextToken());
+                        String activity = new String(st2.nextToken());
+                        String duration = new String(st2.nextToken());
+                        
+                        dataLine = new Vector();
+                        dataLine.addElement(activity);
+                        dataLine.addElement(duration);
+                        dataLine.addElement(time);
+
+                        data.addElement(dataLine);
+                    }
+                }
+                br.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+table.setModel(new javax.swing.table.DefaultTableModel(
+        data,
+        columns));
+
+     jScrollPane1.setViewportView(table);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buttonLogEvent;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

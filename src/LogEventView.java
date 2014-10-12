@@ -26,6 +26,7 @@ public class LogEventView extends javax.swing.JDialog {
     public LogEventView(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setLocationRelativeTo( null ); //opens the frame in the middle of the screen
     }
 
     /**
@@ -125,27 +126,30 @@ public class LogEventView extends javax.swing.JDialog {
         String activity = new String(textFieldActivity.getText());
         String duration = new String(textFieldDuration.getText());
         
-        
-        try{
-            String filename= "src/PAMDB.txt";
-            FileWriter fw = new java.io.FileWriter(filename,true); //the true will append the new data
-            fw.write(ts + "," + activity + "," + duration + "\n");//appends the string to the file
-            fw.close();
-            //System.out.println(ts + "|" + activity + "|" + duration);
-        } catch(IOException ioe) {
-            System.err.println("IOException: " + ioe.getMessage());
-        } 
-//        try{
-//            String filename= "src/PAMDB.txt";
-//            FileWriter fw = new java.io.FileWriter(filename,true); //the true will append the new data
-//            fw.write("{\"" + ts + "\"," + "\"" + activity + "\"," + "\"" + duration + "\"},");//appends the string to the file
-//            fw.close();
-//            //System.out.println(ts + "|" + activity + "|" + duration);
-//        } catch(IOException ioe) {
-//            System.err.println("IOException: " + ioe.getMessage());
-//        } 
-        
-        this.dispose();
+        if(activity != "" && duration != "") {
+            try{
+                String filename= "src/PAMDB.txt";
+                FileWriter fw = new java.io.FileWriter(filename,true); //the true will append the new data
+                fw.write(ts + "," + activity + " ," + duration + " \n");//appends the string to the file
+                fw.close();
+                //System.out.println(ts + "|" + activity + "|" + duration);
+            } catch(IOException ioe) {
+                System.err.println("IOException: " + ioe.getMessage());
+            } 
+    //        try{
+    //            String filename= "src/PAMDB.txt";
+    //            FileWriter fw = new java.io.FileWriter(filename,true); //the true will append the new data
+    //            fw.write("{\"" + ts + "\"," + "\"" + activity + "\"," + "\"" + duration + "\"},");//appends the string to the file
+    //            fw.close();
+    //            //System.out.println(ts + "|" + activity + "|" + duration);
+    //        } catch(IOException ioe) {
+    //            System.err.println("IOException: " + ioe.getMessage());
+    //        } 
+
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this,"Please fill in all fields.");
+        }
     }//GEN-LAST:event_buttonSaveActionPerformed
 
     /**
