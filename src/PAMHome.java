@@ -34,13 +34,13 @@ public class PAMHome extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         buttonLogEvent = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -51,7 +51,7 @@ public class PAMHome extends javax.swing.JFrame {
                 "Activity", "Duration", "Date"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(table);
 
         jLabel1.setFont(new java.awt.Font("Lucida Grande", 0, 18)); // NOI18N
         jLabel1.setText("PAM");
@@ -96,6 +96,52 @@ public class PAMHome extends javax.swing.JFrame {
         LogEventView logEvent = new LogEventView(this, true);
         logEvent.setVisible(true);
         
+        
+        try {
+            java.io.BufferedReader br = new java.io.BufferedReader(new java.io.FileReader("src/PAMDB.txt"));
+            StringBuilder sb = new StringBuilder();
+            String line = new String();
+            String lineTime = new String();
+            String lineActivity = new String();
+            String lineDuration = new String();
+            String[] lineParts = new String[4];
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                line = (String)br.readLine();
+                if(line != null) {
+                    System.out.println("from doc:" + line);
+                    lineParts = line.split("|",4);
+                    lineTime = lineParts[0];
+                    System.out.println("Time: " + lineTime);
+                }
+            }
+            br.close();
+            String everything = sb.toString();
+        } catch(IOException ioe) {
+            
+        } 
+        
+        
+        
+        table.setModel(new javax.swing.table.DefaultTableModel(
+        new Object [][] {
+            {"Running", "09/05/14", "3", "0:45"},
+            {"Climbing", "09/07/14", "2", "0:22"},
+            {"Swimming", "09/11/14", "4", "1:15"},
+            {"Running", "09/05/14", "3", "0:45"},
+            {"Climbing", "09/07/14", "2", "0:22"},
+            {"Swimming", "09/11/14", "4", "1:15"},
+            {"Running", "09/05/14", "3", "0:45"},
+            {"Climbing", "09/07/14", "2", "0:22"},
+            {"Swimming", "09/11/14", "4", "1:15"},
+            {null, null, null, null}
+        },
+        new String [] {
+            "Activity", "Date", "Week", "Duration"
+        }));
+
+     jScrollPane1.setViewportView(table);
         
 //                Date date = new Date();
 //        Timestamp ts = new Timestamp(date.getTime());
@@ -156,6 +202,6 @@ public class PAMHome extends javax.swing.JFrame {
     private javax.swing.JButton buttonLogEvent;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
