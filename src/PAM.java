@@ -1,3 +1,10 @@
+//Brandon Brotsky
+//brandon.brotsky.49@my.csun.edu
+
+//Nir Ashkenazi
+//nir.ashkenazi.377@my.csun.edu
+
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -7,10 +14,6 @@
 import java.util.Arrays;
 import javax.swing.*;
 
-/**
- *
- * @author brotsky
- */
 public class PAM extends javax.swing.JFrame {
 
     /**

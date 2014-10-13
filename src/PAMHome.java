@@ -5,11 +5,15 @@
  */
 
 import java.util.*;
+import java.util.Calendar;
 import javax.swing.*;
 import java.sql.Timestamp;
 import javax.swing.JOptionPane;
 import java.io.*;
 import javax.swing.JDialog;
+import java.text.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 /**
  *
@@ -19,7 +23,21 @@ public class PAMHome extends javax.swing.JFrame {
     Vector data;
     Vector dataLine;
     Vector columns;
-
+    Date today = new Date();
+    Date currentDate = new Date(today.getYear(),today.getMonth(),today.getDate());
+        
+    int dayOfWeek = currentDate.getDay();
+    
+    Date sunday = new Date(currentDate.getTime() - dayOfWeek * 24 * 3600 * 1000 );
+    Date monday = new Date(sunday.getTime() + 1 * 24 * 3600 * 1000 );
+    Date tuesday = new Date(sunday.getTime() + 2 * 24 * 3600 * 1000 );
+    Date wednesday = new Date(sunday.getTime() + 3 * 24 * 3600 * 1000 );
+    Date thursday = new Date(sunday.getTime() + 4 * 24 * 3600 * 1000 );
+    Date friday = new Date(sunday.getTime() + 5 * 24 * 3600 * 1000 );
+    Date saturday = new Date(sunday.getTime() + 6 * 24 * 3600 * 1000 );
+    
+    String tab;
+    
     /**
      * Creates new form PAMHome
      */
@@ -27,6 +45,27 @@ public class PAMHome extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo( null ); //opens the frame in the middle of the screen
         getPAMData(); //populate the table with the existing information
+        
+        nextButton.hide();
+        previousButton.hide();
+        
+        System.out.println(currentDate);
+        ChangeListener changeListener = new ChangeListener() {
+            public void stateChanged(ChangeEvent changeEvent) {
+                JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent.getSource();
+                int index = sourceTabbedPane.getSelectedIndex();
+                tab = sourceTabbedPane.getTitleAt(index);
+                if(tab == "Weekly" || tab == "Daily") {
+                    nextButton.show();
+                    previousButton.show();
+                } else {
+                    nextButton.hide();
+                    previousButton.hide();
+                }
+            }
+        };
+        this.tabbedPane.addChangeListener(changeListener);
+        
     }
 
     /**
@@ -38,12 +77,26 @@ public class PAMHome extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         buttonLogEvent = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        tabbedPane = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tableWeekly = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableDaily = new javax.swing.JTable();
+        nextButton = new javax.swing.JButton();
+        previousButton = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        usageMenu = new javax.swing.JMenu();
+        authorMenu = new javax.swing.JMenu();
+
+        jButton2.setText("jButton2");
+
+        jButton3.setText("jButton3");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,13 +107,6 @@ public class PAMHome extends javax.swing.JFrame {
         buttonLogEvent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 buttonLogEventActionPerformed(evt);
-            }
-        });
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All", "Daily", "Weekly" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
             }
         });
 
@@ -77,33 +123,101 @@ public class PAMHome extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(table);
 
-        jScrollPane2.setViewportView(jScrollPane1);
+        tabbedPane.addTab("Log", jScrollPane1);
+
+        tableWeekly.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tableWeekly);
+
+        tabbedPane.addTab("Weekly", jScrollPane2);
+
+        tableDaily.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tableDaily);
+
+        tabbedPane.addTab("Daily", jScrollPane3);
+
+        nextButton.setText("Next >");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+
+        previousButton.setText("< Previous");
+        previousButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previousButtonActionPerformed(evt);
+            }
+        });
+
+        usageMenu.setText("Usage");
+        usageMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                usageMenuMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(usageMenu);
+
+        authorMenu.setText("Authors");
+        authorMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                authorMenuMouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(authorMenu);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 773, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addComponent(buttonLogEvent)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 140, Short.MAX_VALUE))
+                    .addComponent(tabbedPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1121, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(26, 26, 26)
+                        .addComponent(buttonLogEvent, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(previousButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nextButton)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(buttonLogEvent)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 173, Short.MAX_VALUE))
+                        .addComponent(nextButton)
+                        .addComponent(previousButton)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(185, Short.MAX_VALUE))
         );
 
         pack();
@@ -119,12 +233,49 @@ public class PAMHome extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buttonLogEventActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
-        System.out.println("changed");
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        
+        int days = 1;
+        if(tab == "Weekly")
+            days = 7;
+        
+        this.addDaysToCurrentDate(days);
+        System.out.println(currentDate);
+        getPAMData();
+    }//GEN-LAST:event_nextButtonActionPerformed
 
-    
+    private void previousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousButtonActionPerformed
+        // TODO add your handling code here:
+        
+        int days = -1;
+        if(tab == "Weekly")
+            days = -7;
+        
+        this.addDaysToCurrentDate(days);
+        System.out.println(currentDate);
+        getPAMData();
+    }//GEN-LAST:event_previousButtonActionPerformed
+
+    private void usageMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_usageMenuMouseClicked
+        // TODO add your handling code here:
+        System.out.println("usage menu");
+        
+        PAMUsage usage = new PAMUsage();
+        usage.setVisible(true);
+    }//GEN-LAST:event_usageMenuMouseClicked
+
+    private void authorMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_authorMenuMouseClicked
+        // TODO add your handling code here:
+        System.out.println("author menu");
+        
+        PAMAuthors authors = new PAMAuthors();
+        authors.setVisible(true);
+    }//GEN-LAST:event_authorMenuMouseClicked
+
+    public void addDaysToCurrentDate(int n) {
+        currentDate = new Date(currentDate.getTime() + n * 24 * 3600 * 1000 ); //Subtract n days
+    }
     /**
      * @param args the command line arguments
      */
@@ -158,6 +309,8 @@ public class PAMHome extends javax.swing.JFrame {
                 new PAMHome().setVisible(true);
             }
         });
+        
+        
     }
     
     public void getPAMData() {
@@ -166,9 +319,24 @@ public class PAMHome extends javax.swing.JFrame {
         dataLine = new Vector();
         columns = new Vector();
         
+        int currentDayOfWeek = currentDate.getDay();
+        
+        System.out.println("Day of Week: " + dayOfWeek );
+        
+        sunday = new Date(currentDate.getTime() - dayOfWeek * 24 * 3600 * 1000 );
+        monday = new Date(sunday.getTime() + 1 * 24 * 3600 * 1000 );
+        tuesday = new Date(sunday.getTime() + 2 * 24 * 3600 * 1000 );
+        wednesday = new Date(sunday.getTime() + 3 * 24 * 3600 * 1000 );
+        thursday = new Date(sunday.getTime() + 4 * 24 * 3600 * 1000 );
+        friday = new Date(sunday.getTime() + 5 * 24 * 3600 * 1000 );
+        saturday = new Date(sunday.getTime() + 6 * 24 * 3600 * 1000 );
+        
+        String[][] weeklyData = new String[7][24];
+        
         columns.addElement("Activity");
         columns.addElement("Duration");
         columns.addElement("Date");
+        columns.addElement("Day");
         
         try {
             
@@ -177,20 +345,33 @@ public class PAMHome extends javax.swing.JFrame {
             //String st1 = br.readLine();
        //         StringTokenizer st1 = new StringTokenizer(br.readLine(), ",");
                 while ((line = br.readLine()) != null) {
-                    System.out.println(line);
                     StringTokenizer st2 = new StringTokenizer(line, ",");
 
                     if(st2.countTokens() == 3) {
                         String time = new String(st2.nextToken());
                         String activity = new String(st2.nextToken());
                         String duration = new String(st2.nextToken());
+                        dayOfWeek = timeStampToDayOfWeekInt(time);
+                        int hourOfDay = timeStampToHourOfDayInt(time);
+                        String day = timeStampToDayOfWeek(dayOfWeek);
                         
                         dataLine = new Vector();
                         dataLine.addElement(activity);
                         dataLine.addElement(duration);
                         dataLine.addElement(time);
+                        dataLine.addElement(day);
 
                         data.addElement(dataLine);
+                        
+                        //need to set the data to weeklyData;
+                        if(inThisWeek(time)) {
+                            if (weeklyData[dayOfWeek][hourOfDay] == null)
+                                weeklyData[dayOfWeek][hourOfDay] = "";
+
+                            weeklyData[dayOfWeek][hourOfDay] += "Activity: " + activity + "\r\n";
+                            weeklyData[dayOfWeek][hourOfDay] += "Duration: " + duration + "\r\n";
+                        }
+                        
                     }
                 }
                 br.close();
@@ -198,19 +379,177 @@ public class PAMHome extends javax.swing.JFrame {
             e.printStackTrace();
         }
         
-table.setModel(new javax.swing.table.DefaultTableModel(
-        data,
-        columns));
-
-     jScrollPane1.setViewportView(table);
+        table.setModel(new javax.swing.table.DefaultTableModel(data,columns));
+        jScrollPane1.setViewportView(table);
+        
+        columns = new Vector();
+        
+        columns.addElement("");
+        int month;
+        
+        month = sunday.getMonth() + 1;
+        columns.addElement("Sunday (" + month + "/" + sunday.getDate() + ")");
+        month = monday.getMonth() + 1;
+        columns.addElement("Monday (" + month + "/" + monday.getDate() + ")");
+        month = tuesday.getMonth() + 1;
+        columns.addElement("Tuesday (" + month + "/" + tuesday.getDate() + ")");
+        month = wednesday.getMonth() + 1;
+        columns.addElement("Wednesday (" + month + "/" + wednesday.getDate() + ")");
+        month = thursday.getMonth() + 1;
+        columns.addElement("Thursday (" + month + "/" + thursday.getDate() + ")");
+        month = friday.getMonth() + 1;
+        columns.addElement("Friday (" + month + "/" + friday.getDate() + ")");
+        month = saturday.getMonth() + 1;
+        columns.addElement("Saturday (" + month + "/" + saturday.getDate() + ")");
+        
+        data = new Vector();
+        
+        for(int i = 0 ; i < 24 ; i++) {
+            dataLine = new Vector();
+            String m = "AM";
+            int hour = i;
+            if(hour == 0) {
+                hour = 12;
+            } else if(hour > 12) {
+                hour-=12;
+                m = "PM";
+            }
+            
+            dataLine.addElement(hour + ":00 " + m);
+            for(int j = 0 ; j < 7 ; j++) {
+                dataLine.addElement(weeklyData[j][i]);
+            }
+            
+            data.addElement(dataLine);
+        }
+        
+        tableWeekly.setModel(new javax.swing.table.DefaultTableModel(data,columns));
+        
+        javax.swing.table.DefaultTableCellRenderer rightRenderer = new javax.swing.table.DefaultTableCellRenderer();
+        rightRenderer.setHorizontalAlignment(JLabel.RIGHT);
+        tableWeekly.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+        tableWeekly.getColumnModel().getColumn(0).setPreferredWidth(20);
+        
+        columns = new Vector();
+        columns.addElement("");
+        
+        month = currentDate.getMonth() + 1;
+        columns.addElement(timeStampToDayOfWeek(currentDayOfWeek) + " (" + month + "/" + currentDate.getDate()  + ")");
+        System.out.println(currentDayOfWeek);
+        data = new Vector();
+        
+        for(int i = 0 ; i < 24 ; i++) {
+            dataLine = new Vector();
+            String m = "AM";
+            int hour = i;
+            if(hour == 0) {
+                hour = 12;
+            } else if(hour > 12) {
+                hour-=12;
+                m = "PM";
+            }
+            
+            dataLine.addElement(hour + ":00 " + m);
+            
+            
+            
+            dataLine.addElement(weeklyData[currentDayOfWeek][i]);
+            
+            data.addElement(dataLine);
+        }
+        
+        tableDaily.setModel(new javax.swing.table.DefaultTableModel(data,columns));
+        
+        tableDaily.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+        tableDaily.getColumnModel().getColumn(0).setPreferredWidth(15);
+        tableDaily.getColumnModel().getColumn(1).setPreferredWidth(945);
     }
+    
+    public String timeStampToDayOfWeek(int d) {
+        
+        String day = "";
+        
+        if(d == 0)
+            day = "Sunday";
+        else if(d == 1)
+            day = "Monday";
+        else if(d == 2)
+            day = "Tuesday";
+        else if(d == 3)
+            day = "Wednesday";
+        else if(d == 4)
+            day = "Thursday";
+        else if(d == 5)
+            day = "Friday";
+        else if(d == 6)
+            day = "Saturday";
+        return day;
+        
+    }
+    
+    public int timeStampToDayOfWeekInt(String ts) {
+        int day = 0;
+                
+        String[] timestamp = ts.split(" ");
+        try{
+            Date date = new SimpleDateFormat("yyyy-M-d", Locale.ENGLISH).parse(timestamp[0]);
+            day = date.getDay();
+        } catch(Exception e) {
+            
+        }
+        return day;
+    }
+    
+    public int timeStampToHourOfDayInt(String ts) {
+        int hour = 0;
+        String[] timestamp = ts.split(" ");
+        String[] timeOfDay = timestamp[1].split(":");
+        hour =  Integer.parseInt(timeOfDay[0]);        
+        return hour;
+    }
+    
+    public boolean inThisWeek(String ts) {
+        boolean thisWeek = false;
+        String[] timestamp = ts.split(" ");
+        
+        String[] dateParts = timestamp[0].split("-");
+        int year = Integer.parseInt( dateParts[0] );
+        int month = Integer.parseInt( dateParts[1] );
+        int day = Integer.parseInt( dateParts[2] ) + 1;
+        
+        System.out.println(day);
+        
+        Date nextSunday = new Date(sunday.getTime() + 8 * 24 * 3600 * 1000 );
+        
+        try{
+            Date eventDate = new SimpleDateFormat("yyyy-M-d", Locale.ENGLISH).parse(year + "-" + month + "-" + day);
+            if(eventDate.after(sunday) && eventDate.before(nextSunday)) {
+                thisWeek = true;
+            }
+        } catch(Exception e) {
+            
+        }
+        
+        return thisWeek;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu authorMenu;
     private javax.swing.JButton buttonLogEvent;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JButton previousButton;
+    private javax.swing.JTabbedPane tabbedPane;
     private javax.swing.JTable table;
+    private javax.swing.JTable tableDaily;
+    private javax.swing.JTable tableWeekly;
+    private javax.swing.JMenu usageMenu;
     // End of variables declaration//GEN-END:variables
 }

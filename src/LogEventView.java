@@ -132,20 +132,9 @@ public class LogEventView extends javax.swing.JDialog {
                 FileWriter fw = new java.io.FileWriter(filename,true); //the true will append the new data
                 fw.write(ts + "," + activity + " ," + duration + " \n");//appends the string to the file
                 fw.close();
-                //System.out.println(ts + "|" + activity + "|" + duration);
             } catch(IOException ioe) {
                 System.err.println("IOException: " + ioe.getMessage());
             } 
-    //        try{
-    //            String filename= "src/PAMDB.txt";
-    //            FileWriter fw = new java.io.FileWriter(filename,true); //the true will append the new data
-    //            fw.write("{\"" + ts + "\"," + "\"" + activity + "\"," + "\"" + duration + "\"},");//appends the string to the file
-    //            fw.close();
-    //            //System.out.println(ts + "|" + activity + "|" + duration);
-    //        } catch(IOException ioe) {
-    //            System.err.println("IOException: " + ioe.getMessage());
-    //        } 
-
             this.dispose();
         } else {
             JOptionPane.showMessageDialog(this,"Please fill in all fields.");
