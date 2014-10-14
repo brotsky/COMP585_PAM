@@ -35,6 +35,8 @@ public class PAMHome extends javax.swing.JFrame {
     Date thursday = new Date(sunday.getTime() + 4 * 24 * 3600 * 1000 );
     Date friday = new Date(sunday.getTime() + 5 * 24 * 3600 * 1000 );
     Date saturday = new Date(sunday.getTime() + 6 * 24 * 3600 * 1000 );
+   
+
     
     String tab;
     
@@ -330,6 +332,8 @@ public class PAMHome extends javax.swing.JFrame {
         thursday = new Date(sunday.getTime() + 4 * 24 * 3600 * 1000 );
         friday = new Date(sunday.getTime() + 5 * 24 * 3600 * 1000 );
         saturday = new Date(sunday.getTime() + 6 * 24 * 3600 * 1000 );
+       
+
         
         String[][] weeklyData = new String[7][24];
         
@@ -337,6 +341,7 @@ public class PAMHome extends javax.swing.JFrame {
         columns.addElement("Duration");
         columns.addElement("Date");
         columns.addElement("Day");
+        columns.addElement("Notes");
         
         try {
             
@@ -347,10 +352,11 @@ public class PAMHome extends javax.swing.JFrame {
                 while ((line = br.readLine()) != null) {
                     StringTokenizer st2 = new StringTokenizer(line, ",");
 
-                    if(st2.countTokens() == 3) {
-                        String time = new String(st2.nextToken());
+                    if(st2.countTokens() == 4) {
+                        String time =     new String(st2.nextToken());
                         String activity = new String(st2.nextToken());
                         String duration = new String(st2.nextToken());
+                        String notes =    new String(st2.nextToken());
                         dayOfWeek = timeStampToDayOfWeekInt(time);
                         int hourOfDay = timeStampToHourOfDayInt(time);
                         String day = timeStampToDayOfWeek(dayOfWeek);
@@ -360,6 +366,7 @@ public class PAMHome extends javax.swing.JFrame {
                         dataLine.addElement(duration);
                         dataLine.addElement(time);
                         dataLine.addElement(day);
+                        dataLine.addElement(notes);
 
                         data.addElement(dataLine);
                         
@@ -370,6 +377,7 @@ public class PAMHome extends javax.swing.JFrame {
 
                             weeklyData[dayOfWeek][hourOfDay] += "Activity: " + activity + "\r\n";
                             weeklyData[dayOfWeek][hourOfDay] += "Duration: " + duration + "\r\n";
+                            weeklyData[dayOfWeek][hourOfDay] += "Notes: " + notes + "\r\n";
                         }
                         
                     }
@@ -386,7 +394,9 @@ public class PAMHome extends javax.swing.JFrame {
         
         columns.addElement("");
         int month;
-        
+       
+     
+ 
         month = sunday.getMonth() + 1;
         columns.addElement("Sunday (" + month + "/" + sunday.getDate() + ")");
         month = monday.getMonth() + 1;
@@ -401,6 +411,8 @@ public class PAMHome extends javax.swing.JFrame {
         columns.addElement("Friday (" + month + "/" + friday.getDate() + ")");
         month = saturday.getMonth() + 1;
         columns.addElement("Saturday (" + month + "/" + saturday.getDate() + ")");
+
+      
         
         data = new Vector();
         
@@ -435,6 +447,7 @@ public class PAMHome extends javax.swing.JFrame {
         
         month = currentDate.getMonth() + 1;
         columns.addElement(timeStampToDayOfWeek(currentDayOfWeek) + " (" + month + "/" + currentDate.getDate()  + ")");
+//        columns.addElement(strDays[now.get(Calendar.DAY_OF_WEEK) - 1] + " (" + (now.get(Calendar.MONTH) + 1) + "/" + (now.get(Calendar.DATE) + 0) + ")");
         System.out.println(currentDayOfWeek);
         data = new Vector();
         
@@ -519,11 +532,11 @@ public class PAMHome extends javax.swing.JFrame {
         
         System.out.println(day);
         
-        Date nextSunday = new Date(sunday.getTime() + 8 * 24 * 3600 * 1000 );
+        Date nextWeek = new Date(sunday.getTime() + 8 * 24 * 3600 * 1000 );
         
         try{
             Date eventDate = new SimpleDateFormat("yyyy-M-d", Locale.ENGLISH).parse(year + "-" + month + "-" + day);
-            if(eventDate.after(sunday) && eventDate.before(nextSunday)) {
+            if(eventDate.after(sunday) && eventDate.before(nextWeek)) {
                 thisWeek = true;
             }
         } catch(Exception e) {

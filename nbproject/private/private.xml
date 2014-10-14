@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/brotsky/NetBeansProjects/PAM/src/PAM.java</file>
-            <file>file:/Users/brotsky/NetBeansProjects/PAM/src/PAMHome.java</file>
-            <file>file:/Users/brotsky/NetBeansProjects/PAM/src/PAMDB.txt</file>
-            <file>file:/Users/brotsky/NetBeansProjects/PAM/src/LogEventView.java</file>
+            <file>file:/Users/Nir/COMP585_PAM/src/PAMAuthors.java</file>
+            <file>file:/Users/Nir/COMP585_PAM/src/PAMDB.txt</file>
+            <file>file:/Users/Nir/COMP585_PAM/src/LogEventView.java</file>
+            <file>file:/Users/Nir/COMP585_PAM/src/PAMHome.java</file>
+            <file>file:/Users/Nir/COMP585_PAM/src/PAMUsage.java</file>
         </group>
     </open-files>
 </project-private>
