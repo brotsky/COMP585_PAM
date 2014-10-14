@@ -36,8 +36,6 @@ public class PAMHome extends javax.swing.JFrame {
     Date friday = new Date(sunday.getTime() + 5 * 24 * 3600 * 1000 );
     Date saturday = new Date(sunday.getTime() + 6 * 24 * 3600 * 1000 );
    
-
-    
     String tab;
     
     /**
@@ -395,8 +393,6 @@ public class PAMHome extends javax.swing.JFrame {
         columns.addElement("");
         int month;
        
-     
- 
         month = sunday.getMonth() + 1;
         columns.addElement("Sunday (" + month + "/" + sunday.getDate() + ")");
         month = monday.getMonth() + 1;
@@ -447,7 +443,6 @@ public class PAMHome extends javax.swing.JFrame {
         
         month = currentDate.getMonth() + 1;
         columns.addElement(timeStampToDayOfWeek(currentDayOfWeek) + " (" + month + "/" + currentDate.getDate()  + ")");
-//        columns.addElement(strDays[now.get(Calendar.DAY_OF_WEEK) - 1] + " (" + (now.get(Calendar.MONTH) + 1) + "/" + (now.get(Calendar.DATE) + 0) + ")");
         System.out.println(currentDayOfWeek);
         data = new Vector();
         
